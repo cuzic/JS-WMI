@@ -1,0 +1,15 @@
+<job id="WMI JavaScript Wrapper">
+  <script language="JScript" src="wmi.js" />
+  <script language="JScript">
+var process = new WMIClass("Win32_Process");
+process.Create("Notepad.exe");
+WScript.Sleep(200);
+process.ExecQuery("SELECT * FROM Win32_Process Where caption = \"notepad.exe\"",
+    function(instance){
+        WScript.Echo(instance.Caption);
+        var obj = instance.Terminate();
+        WScript.Echo(obj);
+    });
+WScript.Sleep(1000);
+  </script>
+</job>

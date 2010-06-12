@@ -1,0 +1,28 @@
+<package>
+<?component error="true" debug="true"?>
+ <comment>
+WMIをラップするスクリプトコンポーネント
+ </comment>
+ <component id="WMIJScript">
+ <reference object="WbemScripting.SWbemLocator" />
+ <public>
+  <method name="getInstances" >
+    <parameter name="iFlags" />
+  </method>
+ </public>
+ <object id="WMILocator" progid="WbemScripting.SWbemLocator" />
+ <script language="JScript">
+service = WMILocator.ConnectServer();
+wmiclass = service.Get("Win32_Process");
+
+  function getInstances(iFlags, objWbemNamedValueSet){
+      if(iFlags === undefined){
+          iFlags = 16;
+      }
+      return iFlags;
+      //return wmiclass.Instances_(null, null);
+  }
+ </script>
+ </component>
+</package>
+
