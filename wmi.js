@@ -15,22 +15,31 @@ $sink = WScript.CreateObject("WbemScripting.SWbemSink", "SINK_");
 
 function SINK_OnCompleted(iHResult, objWbemErrorObject, objWbemAsyncContext){
     var key = objWbemAsyncContext.Item("key");
-    $callbacks["OnCompleted"][key](iHResult, objWbemErrorObject, objWbemAsyncContext);
+    if($callbacks["OnCompleted"][key]){
+        $callbacks["OnCompleted"][key](iHResult, objWbemErrorObject, objWbemAsyncContext);
+    }
 }
 
 function SINK_OnObjectPut(objWbemObjectPath, objWbemAsyncContext){
     var key = objWbemAsyncContext.Item("key");
-    $callbacks["OnObjectPut"][key](objWbemObjectPath, objWbemAsyncContext);
+    if($callbacks["OnCompleted"][key]){
+        $callbacks["OnObjectPut"][key](objWbemObjectPath, objWbemAsyncContext);
+    }
 }
 
 function SINK_OnObjectReady(objWbemObject, objWbemAsyncContext){
     var key = objWbemAsyncContext.Item("key");
-    $callbacks["OnObjectReady"][key](objWbemObject, objWbemAsyncContext);
+    if($callbacks["OnObjectReady"][key]){
+        $callbacks["OnObjectReady"][key](objWbemObject, objWbemAsyncContext);
+    }
 }
 
 function SINK_OnProgress(iUpperBound, iCurrent, strMessage, objWbemAsyncContext){
     var key = objWbemAsyncContext.Item("key");
-    $callbacks["OnProgress"][key](iUpperBound, iCurrent, strMessage, objWbemAsyncContext);
+
+    if($callbacks["OnProgress"][key]){
+        $callbacks["OnProgress"][key](iUpperBound, iCurrent, strMessage, objWbemAsyncContext);
+    }
 }
 
 function WMIClass(classname){
@@ -290,37 +299,66 @@ $REPLACEMENT
     return options;
 }
 
-
-function WMIClass.prototype.InstancesOf(callback){
-    var contextvalue = this.classname + "-InstancesOf";
+function WMIClass.prototype.register_callbacks(contextvalue, options){
     var self = this;
-    var func = function(objWbemObject, objWbemAsyncContext){
-        var instance = self.wrap(objWbemObject);
-        return callback(instance, objWbemAsyncContext);
-    };
-    $callbacks["OnObjectReady"][contextvalue] = func;
-    $callbacks["OnCompleted"][contextvalue] = function(){
-        $callbacks["OnObjectReady"][contextvalue] = null;
-        $callbacks["OnCompleted"][contextvalue] = null;
-    };
+    if(options["OnObjectReady"]){
+        $callbacks["OnObjectReady"][contextvalue] =
+            function(objWbemObject){
+                var instance = self.wrap(objWbemObject);
+                return options["OnObjectReady"](instance);
+            };
+    }
+    if(options["OnCompleted"]){
+         $callbacks["OnCompleted"][contextvalue] = function(iHResult, err){
+            options["OnCompleted"](iHResult, err);
+            $callbacks["OnProgress"][contextvalue] = null;
+            $callbacks["OnObjectReady"][contextvalue] = null;
+            $callbacks["OnCompleted"][contextvalue] = null;
+            $callbacks["OnObjectPut"][contextvalue] = null;
+            return;
+        };
+
+    }
+    if(options["OnProgress"]){
+        $callbacks["OnProgress"][contextvalue] = function(iUpBound, iCur, strMsg){
+            return options["OnProgress"](iUpBound, iCur, strMsg);
+        };
+    }
+    if(options["OnObjectPut"]){
+        $callbacks["OnObjectPut"][contextvalue] =
+            function(path){
+                return options["OnObjectPut"](path);
+            };
+    }
     var hash = WScript.CreateObject("WbemScripting.SWbemNamedValueSet");
     hash.add("key", contextvalue);
+    return hash;
+}
+
+function WMIClass.prototype.InstancesOf(options){
+    var contextvalue = this.classname + "-InstancesOf";
+    var hash = this.register_callbacks(contextvalue, options);
     this.service.InstancesOfAsync($sink, this.classname, null, null, hash);
 }
 
-function WMIClass.prototype.ExecQuery(wql, callback){
+function WMIClass.prototype.ExecQuery(options){
     var contextvalue = this.classname + "-ExecQuery";
-    var self = this;
-    var func = function(objWbemObject, objWbemAsyncContext){
-        var instance = self.wrap(objWbemObject);
-        return callback(instance, objWbemAsyncContext);
-    };
-    $callbacks["OnObjectReady"][contextvalue] = func;
-    $callbacks["OnCompleted"][contextvalue] = function(){
-        $callbacks["OnObjectReady"][contextvalue] = null;
-        $callbacks["OnCompleted"][contextvalue] = null;
-    };
-    var hash = WScript.CreateObject("WbemScripting.SWbemNamedValueSet");
-    hash.add("key", contextvalue);
+    this.register_callbacks(contextvalue, options);
+    var hash = this.register_callbacks(contextvalue, options);
+
+    var wql, select = "*", where = "";
+    if(options["wql"]){
+        wql = options["wql"];
+    }
+    else{
+        if(options["select"]){
+            select = options["select"];
+        }
+        if(options["where"]){
+            where = " WHERE " + options['where'];
+        }
+        wql = "SELECT " + select + " FROM " + this.classname +
+            where;
+    }
     this.service.ExecQueryAsync($sink, wql, "WQL", 0, null, hash);
 }
