@@ -1,12 +1,19 @@
 <package>
 <?component error="true" debug="true"?>
  <comment>
-WMI繧偵Λ繝・・縺吶ｋ繧ｹ繧ｯ繝ｪ繝励ヨ繧ｳ繝ｳ繝昴・繝阪Φ繝・ </comment>
- <component id="WMIJScript_Win32_Process">
+JScript で WMI をラップするスクリプトコンポーネント
+ </comment>
+ <component id="JSWMI_Win32_Process">
  <reference object="WbemScripting.SWbemLocator" />
  <public>
   <property name="wmiobject">
     <get /> <put />
+  </property>
+  <property name="wmisink">
+    <get /> <put />
+  </property>
+  <property name="path">
+    <get />
   </property>
   <property name="Caption">
     <get /><put />
@@ -149,7 +156,6 @@ WMI繧偵Λ繝・・縺吶ｋ繧ｹ繧ｯ繝ｪ繝励ヨ繧ｳ繝ｳ繝昴・繝阪Φ繝・ </comment>
       <parameter name="objWbemNamedValueSet" />
   </method>
   <method name="PutAsync_">
-      <parameter name="objWbemSink" />
       <parameter name="iFlags" />
       <parameter name="objWbemNamedValueSet" />
       <parameter name="objWbemAsyncContext" />
@@ -159,7 +165,6 @@ WMI繧偵Λ繝・・縺吶ｋ繧ｹ繧ｯ繝ｪ繝励ヨ繧ｳ繝ｳ繝昴・繝阪Φ繝・ </comment>
       <parameter name="objWbemNamedValueSet" />
   </method>
   <method name="DeleteAsync_">
-      <parameter name="objWbemSink" />
       <parameter name="iFlags" />
       <parameter name="objWbemNamedValueSet" />
       <parameter name="objWbemAsyncContext" />
@@ -169,7 +174,6 @@ WMI繧偵Λ繝・・縺吶ｋ繧ｹ繧ｯ繝ｪ繝励ヨ繧ｳ繝ｳ繝昴・繝阪Φ繝・ </comment>
       <parameter name="objWbemNamedValueSet" />
   </method>
   <method name="InstancesAsync_">
-      <parameter name="objWbemSink" />
       <parameter name="iFlags" />
       <parameter name="objWbemNamedValueSet" />
       <parameter name="objWbemAsyncContext" />
@@ -179,7 +183,6 @@ WMI繧偵Λ繝・・縺吶ｋ繧ｹ繧ｯ繝ｪ繝励ヨ繧ｳ繝ｳ繝昴・繝阪Φ繝・ </comment>
       <parameter name="objWbemNamedValueSet" />
   </method>
   <method name="SubclassesAsync_">
-      <parameter name="objWbemSink" />
       <parameter name="iFlags" />
       <parameter name="objWbemNamedValueSet" />
       <parameter name="objWbemAsyncContext" />
@@ -197,7 +200,6 @@ WMI繧偵Λ繝・・縺吶ｋ繧ｹ繧ｯ繝ｪ繝励ヨ繧ｳ繝ｳ繝昴・繝阪Φ繝・ </comment>
       <parameter name="objWbemNamedValueSet" />
   </method>
   <method name="AssociatorsAsync_">
-      <parameter name="objWbemSink" />
       <parameter name="strAssocClass" />
       <parameter name="strResultClass" />
       <parameter name="strResultRole" />
@@ -220,7 +222,6 @@ WMI繧偵Λ繝・・縺吶ｋ繧ｹ繧ｯ繝ｪ繝励ヨ繧ｳ繝ｳ繝昴・繝阪Φ繝・ </comment>
       <parameter name="objWbemNamedValueSet" />
   </method>
   <method name="ReferencesAsync_">
-      <parameter name="objWbemSink" />
       <parameter name="strResultClass" />
       <parameter name="strRole" />
       <parameter name="bClassesOnly" />
@@ -237,7 +238,6 @@ WMI繧偵Λ繝・・縺吶ｋ繧ｹ繧ｯ繝ｪ繝励ヨ繧ｳ繝ｳ繝昴・繝阪Φ繝・ </comment>
       <parameter name="objWbemNamedValueSet" />
   </method>
   <method name="ExecMethodAsync_">
-      <parameter name="objWbemSink" />
       <parameter name="strMethodName" />
       <parameter name="objWbemInParameters" />
       <parameter name="iFlags" />
@@ -322,8 +322,25 @@ var wmiobject_;
   }
 
   function get_wmiobject(){
-      return wmiobject__;
+      return wmiobject_;
   }
+
+var wmisink_;
+
+  function put_wmisink(wmisink){
+      wmisink_ = wmisink;
+      return null;
+  }
+
+  function get_wmisink(){
+      return wmisink_;
+  }
+
+
+  function get_path(){
+      return wmiobject_.Path_.PATH;
+  }
+
 
   function Put_(iFlags, objWbemNamedValueSet){
       if (iFlags === undefined){
@@ -334,7 +351,8 @@ var wmiobject_;
       }
       return wmiobject__.Put_(iFlags, objWbemNamedValueSet);
   }
-  function PutAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+
+  function PutAsync_(iFlags, objWbemNamedValueSet, objWbemAsyncContext){
       if (iFlags === undefined){
         iFlags = 0;
       }
@@ -344,8 +362,9 @@ var wmiobject_;
       if (objWbemAsyncContext === undefined){
         objWbemAsyncContext = null;
       }
-      return wmiobject_.PutAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+      return wmiobject_.PutAsync_(wmisink_, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
   }
+
   function Delete_(iFlags, objWbemNamedValueSet){
       if (iFlags === undefined){
         iFlags = 0;
@@ -355,7 +374,8 @@ var wmiobject_;
       }
       return wmiobject_.Delete_(iFlags, objWbemNamedValueSet);
   }
-  function DeleteAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+
+  function DeleteAsync_(iFlags, objWbemNamedValueSet, objWbemAsyncContext){
       if (iFlags === undefined){
         iFlags = 0;
       }
@@ -365,8 +385,9 @@ var wmiobject_;
       if (objWbemAsyncContext === undefined){
         objWbemAsyncContext = null;
       }
-      return wmiobject_.DeleteAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+      return wmiobject_.DeleteAsync_(wmisink_, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
   }
+
   function Instances_(iFlags, objWbemNamedValueSet){
       if (iFlags === undefined){
         iFlags = 16;
@@ -376,7 +397,8 @@ var wmiobject_;
       }
       return wmiobject_.Instances_(iFlags, objWbemNamedValueSet);
   }
-  function InstancesAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+
+  function InstancesAsync_(iFlags, objWbemNamedValueSet, objWbemAsyncContext){
       if (iFlags === undefined){
         iFlags = 0;
       }
@@ -386,8 +408,9 @@ var wmiobject_;
       if (objWbemAsyncContext === undefined){
         objWbemAsyncContext = null;
       }
-      return wmiobject_.InstancesAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+      return wmiobject_.InstancesAsync_(wmisink_, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
   }
+
   function Subclasses_(iFlags, objWbemNamedValueSet){
       if (iFlags === undefined){
         iFlags = 16;
@@ -397,7 +420,8 @@ var wmiobject_;
       }
       return wmiobject_.Subclasses_(iFlags, objWbemNamedValueSet);
   }
-  function SubclassesAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+
+  function SubclassesAsync_(iFlags, objWbemNamedValueSet, objWbemAsyncContext){
       if (iFlags === undefined){
         iFlags = 0;
       }
@@ -407,8 +431,9 @@ var wmiobject_;
       if (objWbemAsyncContext === undefined){
         objWbemAsyncContext = null;
       }
-      return wmiobject_.SubclassesAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+      return wmiobject_.SubclassesAsync_(wmisink_, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
   }
+
   function Associators_(strAssocClass, strResultClass, strResultRole, strRole, bClassesOnly, bSchemaOnly, strRequiredAssocQualifier, strRequiredQualifier, iFlags, objWbemNamedValueSet){
       if (strAssocClass === undefined){
         strAssocClass = "";
@@ -442,7 +467,8 @@ var wmiobject_;
       }
       return wmiobject_.Associators_(strAssocClass, strResultClass, strResultRole, strRole, bClassesOnly, bSchemaOnly, strRequiredAssocQualifier, strRequiredQualifier, iFlags, objWbemNamedValueSet);
   }
-  function AssociatorsAsync_(objWbemSink, strAssocClass, strResultClass, strResultRole, strRole, bClassesOnly, bSchemaOnly, strRequiredAssocQualifier, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+
+  function AssociatorsAsync_(strAssocClass, strResultClass, strResultRole, strRole, bClassesOnly, bSchemaOnly, strRequiredAssocQualifier, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
       if (strAssocClass === undefined){
         strAssocClass = "";
       }
@@ -476,8 +502,9 @@ var wmiobject_;
       if (objWbemAsyncContext === undefined){
         objWbemAsyncContext = null;
       }
-      return wmiobject_.AssociatorsAsync_(objWbemSink, strAssocClass, strResultClass, strResultRole, strRole, bClassesOnly, bSchemaOnly, strRequiredAssocQualifier, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+      return wmiobject_.AssociatorsAsync_(wmisink_, strAssocClass, strResultClass, strResultRole, strRole, bClassesOnly, bSchemaOnly, strRequiredAssocQualifier, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
   }
+
   function References_(strResultClass, strRole, bClassesOnly, bSchemaOnly, strRequiredQualifier, iFlags, objWbemNamedValueSet){
       if (strResultClass === undefined){
         strResultClass = "";
@@ -502,7 +529,8 @@ var wmiobject_;
       }
       return wmiobject_.References_(strResultClass, strRole, bClassesOnly, bSchemaOnly, strRequiredQualifier, iFlags, objWbemNamedValueSet);
   }
-  function ReferencesAsync_(objWbemSink, strResultClass, strRole, bClassesOnly, bSchemaOnly, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+
+  function ReferencesAsync_(strResultClass, strRole, bClassesOnly, bSchemaOnly, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
       if (strResultClass === undefined){
         strResultClass = "";
       }
@@ -527,8 +555,9 @@ var wmiobject_;
       if (objWbemAsyncContext === undefined){
         objWbemAsyncContext = null;
       }
-      return wmiobject_.ReferencesAsync_(objWbemSink, strResultClass, strRole, bClassesOnly, bSchemaOnly, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+      return wmiobject_.ReferencesAsync_(wmisink_, strResultClass, strRole, bClassesOnly, bSchemaOnly, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
   }
+
   function ExecMethod_(strMethodName, objWbemInParameters, iFlags, objWbemNamedValueSet){
       if (objWbemInParameters === undefined){
         objWbemInParameters = null;
@@ -541,7 +570,8 @@ var wmiobject_;
       }
       return wmiobject_.ExecMethod_(strMethodName, objWbemInParameters, iFlags, objWbemNamedValueSet);
   }
-  function ExecMethodAsync_(objWbemSink, strMethodName, objWbemInParameters, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+
+  function ExecMethodAsync_(strMethodName, objWbemInParameters, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
       if (objWbemInParameters === undefined){
         objWbemInParameters = null;
       }
@@ -554,8 +584,9 @@ var wmiobject_;
       if (objWbemAsyncContext === undefined){
         objWbemAsyncContext = null;
       }
-      return wmiobject_.ExecMethodAsync_(objWbemSink, strMethodName, objWbemInParameters, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+      return wmiobject_.ExecMethodAsync_(wmisink_, strMethodName, objWbemInParameters, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
   }
+
   function Clone_(){
       return wmiobject_.Clone_();
   }
@@ -631,281 +662,393 @@ var wmiobject_;
       }
       return wmiobject_.SetFromText_(bsText, iObjectTextFormat, iFlags, objWbemNamedValueSet);
   }
+/* Caption プロパティは、オブジェクトについての簡単な説明 (1 行分の文字列) です。*/
     function get_Caption(){
         return wmiobject_.Properties_.Item("Caption").Value;
     }
+
     function put_Caption(value){
         wmiobject_.Properties.Item("Caption").Value = value;
     }
+/* CommandLine プロパティにより、適用できる場合は、特定の処理を開始するのに使用されるコマンド ラインが指定されます。*/
     function get_CommandLine(){
         return wmiobject_.Properties_.Item("CommandLine").Value;
     }
+
     function put_CommandLine(value){
         wmiobject_.Properties.Item("CommandLine").Value = value;
     }
+/* CreationClassName は、インスタンスの作成で使用されるクラス名、またはサブクラス名を示します。このクラスのほかのキーのプロパティと一緒に使用すると、このクラスおよびそのサブクラスのインスタンスすべてがこのプロパティによって一意に識別されます。*/
     function get_CreationClassName(){
         return wmiobject_.Properties_.Item("CreationClassName").Value;
     }
+
     function put_CreationClassName(value){
         wmiobject_.Properties.Item("CreationClassName").Value = value;
     }
+/* プロセスが実行開始した時刻です。*/
     function get_CreationDate(){
         return wmiobject_.Properties_.Item("CreationDate").Value;
     }
+
     function put_CreationDate(value){
         wmiobject_.Properties.Item("CreationDate").Value = value;
     }
+/* CSCreationClassName にはスコーピング コンピュータ システムの作成クラス名が含まれています。*/
     function get_CSCreationClassName(){
         return wmiobject_.Properties_.Item("CSCreationClassName").Value;
     }
+
     function put_CSCreationClassName(value){
         wmiobject_.Properties.Item("CSCreationClassName").Value = value;
     }
+/* スコーピング コンピュータ システムの名前です。*/
     function get_CSName(){
         return wmiobject_.Properties_.Item("CSName").Value;
     }
+
     function put_CSName(value){
         wmiobject_.Properties.Item("CSName").Value = value;
     }
+/* Description プロパティでオブジェクトの説明が提供されます。 */
     function get_Description(){
         return wmiobject_.Properties_.Item("Description").Value;
     }
+
     function put_Description(value){
         wmiobject_.Properties.Item("Description").Value = value;
     }
+/* ExecutablePath プロパティは、プロセスの実行可能ファイルへのパスを示します。
+例: C:\WINDOWS\EXPLORER.EXE*/
     function get_ExecutablePath(){
         return wmiobject_.Properties_.Item("ExecutablePath").Value;
     }
+
     function put_ExecutablePath(value){
         wmiobject_.Properties.Item("ExecutablePath").Value = value;
     }
+/* プロセスの現在の操作状態を示します。その他の値で含まれるものは、準備完了 (2)、実行中 (3) およびブロックされている (4) です。*/
     function get_ExecutionState(){
         return wmiobject_.Properties_.Item("ExecutionState").Value;
     }
+
     function put_ExecutionState(value){
         wmiobject_.Properties.Item("ExecutionState").Value = value;
     }
+/* プロセスを識別するのに使用される文字列です。プロセス ID はプロセス ハンドルです。*/
     function get_Handle(){
         return wmiobject_.Properties_.Item("Handle").Value;
     }
+
     function put_Handle(value){
         wmiobject_.Properties.Item("Handle").Value = value;
     }
+/* HandleCount プロパティにより、このプロセスで現在開かれているハンドルの合計が指定されます。この数は、このプロセスの各スレッドによって現在開いているハンドルの合計です。ハンドルはシステム リソースを調べるか、または変更するために使用されます。各ハンドルには、内部的に維持されたテーブルのエントリがあります。これらのエントリには、リソースのアドレスとリソースの種類を認識する方法が含まれています。*/
     function get_HandleCount(){
         return wmiobject_.Properties_.Item("HandleCount").Value;
     }
+
     function put_HandleCount(value){
         wmiobject_.Properties.Item("HandleCount").Value = value;
     }
+/* InstallDate プロパティは、オブジェクトがインストールされた日時を示す値です。値が不足しているとオブジェクトがインストールされていないことを表示しません。*/
     function get_InstallDate(){
         return wmiobject_.Properties_.Item("InstallDate").Value;
     }
+
     function put_InstallDate(value){
         wmiobject_.Properties.Item("InstallDate").Value = value;
     }
+/* カーネル モードでの時間 (100 ナノ秒) です。この情報が利用できない場合は、値 0 が使用されます。*/
     function get_KernelModeTime(){
         return wmiobject_.Properties_.Item("KernelModeTime").Value;
     }
+
     function put_KernelModeTime(value){
         wmiobject_.Properties.Item("KernelModeTime").Value = value;
     }
+/* MaximumWorkingSetSize プロパティは、プロセスの動作セットの最大サイズを示します。プロセスのワーキング セットは、物理 RAM のプロセスに現在見えるメモリ ページのセットです。これらのページは、アプリケーションに常駐し利用可能で、ページ フォールトを発生させずに使用されます。
+例: 1413120*/
     function get_MaximumWorkingSetSize(){
         return wmiobject_.Properties_.Item("MaximumWorkingSetSize").Value;
     }
+
     function put_MaximumWorkingSetSize(value){
         wmiobject_.Properties.Item("MaximumWorkingSetSize").Value = value;
     }
+/* MinimumWorkingSetSize プロパティは、プロセスの動作セットの最小サイズを示します。プロセスのワーキング セットは、物理 RAM のプロセスに現在見えるメモリ ページのセットです。これらのページは、アプリケーションに常駐し利用可能で、ページ フォールトを発生させずに使用されます。
+例: 20480*/
     function get_MinimumWorkingSetSize(){
         return wmiobject_.Properties_.Item("MinimumWorkingSetSize").Value;
     }
+
     function put_MinimumWorkingSetSize(value){
         wmiobject_.Properties.Item("MinimumWorkingSetSize").Value = value;
     }
+/* Name プロパティで、オブジェクトを認識するラベルを定義します。サブクラスの場合、Name プロパティは上書きされて Key プロパティとなります。*/
     function get_Name(){
         return wmiobject_.Properties_.Item("Name").Value;
     }
+
     function put_Name(value){
         wmiobject_.Properties.Item("Name").Value = value;
     }
+/* スコーピング オペレーティング システムの作成クラス名です。*/
     function get_OSCreationClassName(){
         return wmiobject_.Properties_.Item("OSCreationClassName").Value;
     }
+
     function put_OSCreationClassName(value){
         wmiobject_.Properties.Item("OSCreationClassName").Value = value;
     }
+/* スコーピング オペレーティング システムの名前です。*/
     function get_OSName(){
         return wmiobject_.Properties_.Item("OSName").Value;
     }
+
     function put_OSName(value){
         wmiobject_.Properties.Item("OSName").Value = value;
     }
+/* OtherOperationCount プロパティにより、読み取りおよび書き込み操作のほかに実行された I/O 操作の数が指定されます。*/
     function get_OtherOperationCount(){
         return wmiobject_.Properties_.Item("OtherOperationCount").Value;
     }
+
     function put_OtherOperationCount(value){
         wmiobject_.Properties.Item("OtherOperationCount").Value = value;
     }
+/* OtherTransferCount プロパティにより、読み取りと書き込み操作以外の操作中に転送されたデータの量が指定されます。*/
     function get_OtherTransferCount(){
         return wmiobject_.Properties_.Item("OtherTransferCount").Value;
     }
+
     function put_OtherTransferCount(value){
         wmiobject_.Properties.Item("OtherTransferCount").Value = value;
     }
+/* PageFaults プロパティは、プロセスに生成されるページ フォールトの数を示します。
+例: 10*/
     function get_PageFaults(){
         return wmiobject_.Properties_.Item("PageFaults").Value;
     }
+
     function put_PageFaults(value){
         wmiobject_.Properties.Item("PageFaults").Value = value;
     }
+/* PageFileUsage プロパティは、プロセスに現在使用されているページ ファイル領域の量を示します。
+例: 102435*/
     function get_PageFileUsage(){
         return wmiobject_.Properties_.Item("PageFileUsage").Value;
     }
+
     function put_PageFileUsage(value){
         wmiobject_.Properties.Item("PageFileUsage").Value = value;
     }
+/* ParentProcessId プロパティにより、このプロセスを作成したプロセスの一意な識別子が指定されます。プロセスの識別子番号が再使用され、これらによりプロセスの有効期間のプロセスだけが認識されます。ParentProcessId によって識別されるプロセスが終了することが可能で、ParentProcessId は実行プロセスを参照しません。ParentProcessId によりプロセス識別子を再使用するプロセスが正しく参照されていないことも予想されます。CreationDate プロパティは、指定された親がこのプロセスが作成された後に作成されたかどうかを決定するために使用されます。*/
     function get_ParentProcessId(){
         return wmiobject_.Properties_.Item("ParentProcessId").Value;
     }
+
     function put_ParentProcessId(value){
         wmiobject_.Properties.Item("ParentProcessId").Value = value;
     }
+/* PeakPageFileUsage プロパティは、プロセス中に使用される最大のページ ファイル領域を示します。
+例: 102367*/
     function get_PeakPageFileUsage(){
         return wmiobject_.Properties_.Item("PeakPageFileUsage").Value;
     }
+
     function put_PeakPageFileUsage(value){
         wmiobject_.Properties.Item("PeakPageFileUsage").Value = value;
     }
+/* PeakVirtualSize プロパティにより、プロセスにより一度に使用される最大の仮想アドレス領域が指定されます。仮想アドレス領域の使用には、必ずしもディスクまたはメイン メモリ ページの対応する使用が含まれる必要はありません。ただし、仮想領域は限界があり、使用し過ぎると、ライブラリを読み込むプロセスの機能は制限されます。*/
     function get_PeakVirtualSize(){
         return wmiobject_.Properties_.Item("PeakVirtualSize").Value;
     }
+
     function put_PeakVirtualSize(value){
         wmiobject_.Properties.Item("PeakVirtualSize").Value = value;
     }
+/* PeakWorkingSetSize プロパティは、プロセスのワーキング セットのピークのサイズを示します。
+例: 1413120*/
     function get_PeakWorkingSetSize(){
         return wmiobject_.Properties_.Item("PeakWorkingSetSize").Value;
     }
+
     function put_PeakWorkingSetSize(value){
         wmiobject_.Properties.Item("PeakWorkingSetSize").Value = value;
     }
+/* Priority プロパティは、オペレーティング システム内でスケジュールされているプロセスの優先順位を示します。値が大きいほど、プロセスの優先順位が高くなります。優先度の値の範囲は 0 (最低の優先度) から 31 (最高の優先度) です。
+例: 7*/
     function get_Priority(){
         return wmiobject_.Properties_.Item("Priority").Value;
     }
+
     function put_Priority(value){
         wmiobject_.Properties.Item("Priority").Value = value;
     }
+/* PrivatePageCount プロパティにより、このプロセスだけにアクセス可能な現在の割り当てページ数が指定されます。*/
     function get_PrivatePageCount(){
         return wmiobject_.Properties_.Item("PrivatePageCount").Value;
     }
+
     function put_PrivatePageCount(value){
         wmiobject_.Properties.Item("PrivatePageCount").Value = value;
     }
+/* ProcessId プロパティには、プロセスを識別するのに使用されるグローバル プロセス識別子が含まれています。値は、プロセスが終了するまでプロセスの作成から有効です。*/
     function get_ProcessId(){
         return wmiobject_.Properties_.Item("ProcessId").Value;
     }
+
     function put_ProcessId(value){
         wmiobject_.Properties.Item("ProcessId").Value = value;
     }
+/* QuotaNonPagedPoolUsage プロパティは、プロセスに対する非ページ プールのクウォータ 使用量を示します。
+例: 15*/
     function get_QuotaNonPagedPoolUsage(){
         return wmiobject_.Properties_.Item("QuotaNonPagedPoolUsage").Value;
     }
+
     function put_QuotaNonPagedPoolUsage(value){
         wmiobject_.Properties.Item("QuotaNonPagedPoolUsage").Value = value;
     }
+/* QuotaPagedPoolUsage プロパティは、プロセスに対するページ プールのクウォータ 使用量を示します。
+例: 22*/
     function get_QuotaPagedPoolUsage(){
         return wmiobject_.Properties_.Item("QuotaPagedPoolUsage").Value;
     }
+
     function put_QuotaPagedPoolUsage(value){
         wmiobject_.Properties.Item("QuotaPagedPoolUsage").Value = value;
     }
+/* QuotaPeakNonPagedPoolUsage プロパティは、プロセスに対する非ページ プールのピーク時のクウォータ 使用量を示します。
+例: 31*/
     function get_QuotaPeakNonPagedPoolUsage(){
         return wmiobject_.Properties_.Item("QuotaPeakNonPagedPoolUsage").Value;
     }
+
     function put_QuotaPeakNonPagedPoolUsage(value){
         wmiobject_.Properties.Item("QuotaPeakNonPagedPoolUsage").Value = value;
     }
+/* QuotaPeakPagedPoolUsage プロパティは、プロセスに対するページ プールのピーク時のクウォータ 使用量を示します。
+ 例: 31*/
     function get_QuotaPeakPagedPoolUsage(){
         return wmiobject_.Properties_.Item("QuotaPeakPagedPoolUsage").Value;
     }
+
     function put_QuotaPeakPagedPoolUsage(value){
         wmiobject_.Properties.Item("QuotaPeakPagedPoolUsage").Value = value;
     }
+/* ReadOperationCount プロパティにより、実行される読み取り操作数が指定されます。*/
     function get_ReadOperationCount(){
         return wmiobject_.Properties_.Item("ReadOperationCount").Value;
     }
+
     function put_ReadOperationCount(value){
         wmiobject_.Properties.Item("ReadOperationCount").Value = value;
     }
+/* ReadTransferCount プロパティにより、読み取りデータ量が指定されます。*/
     function get_ReadTransferCount(){
         return wmiobject_.Properties_.Item("ReadTransferCount").Value;
     }
+
     function put_ReadTransferCount(value){
         wmiobject_.Properties.Item("ReadTransferCount").Value = value;
     }
+/* SessionId プロパティにより、セッションが作成されるときにオペレーティング システムに生成される一意な識別子が指定されます。セッションは、特定のシステムでログインからログアウトまでの期間に及びます。*/
     function get_SessionId(){
         return wmiobject_.Properties_.Item("SessionId").Value;
     }
+
     function put_SessionId(value){
         wmiobject_.Properties.Item("SessionId").Value = value;
     }
+/* Status プロパティはオブジェクトの現在の状態を示す文字列です。操作可能な状態および操作不可能な状態が定義されます。操作可能な状態は、"OK"、"低下"および"障害が発生する可能性あり"です。"障害が発生する可能性あり"は、要素は適切に機能するけれども近いうちに障害が発生する可能性があることを示します。例:  SMART-enabled ハード ディスク。 操作不可能な状態も指定できます。これは、"エラー"、"開始中"、"停止動作中"および"サービス"です。最後の"サービス"は、ディスクがミラーされている間、ユーザーのアクセス許可の一覧を再度読み込む間、またはほかの管理用作業が行われている間に適用することができます。この作業がすべてオンラインで行われるとは限りませんが、[管理要素] は"OK"でもほかの状態でもありません。*/
     function get_Status(){
         return wmiobject_.Properties_.Item("Status").Value;
     }
+
     function put_Status(value){
         wmiobject_.Properties.Item("Status").Value = value;
     }
+/* プロセスが停止または終了した時刻です。*/
     function get_TerminationDate(){
         return wmiobject_.Properties_.Item("TerminationDate").Value;
     }
+
     function put_TerminationDate(value){
         wmiobject_.Properties.Item("TerminationDate").Value = value;
     }
+/* ThreadCount プロパティにより、このプロセスでアクティブなスレッドの数が指定されます。命令はプロセッサでの実行の基本ユニットで、スレッドは命令を実行するオブジェクトです。すべての実行プロセスには少なくとも 1 つのスレッドがあります。このプロパティは、Windows NT のみを実行しているコンピュータ用です。*/
     function get_ThreadCount(){
         return wmiobject_.Properties_.Item("ThreadCount").Value;
     }
+
     function put_ThreadCount(value){
         wmiobject_.Properties.Item("ThreadCount").Value = value;
     }
+/* ユーザー モードでの時間 (100 ナノ秒) です。この情報が利用できない場合は、値 0 が使用されます。*/
     function get_UserModeTime(){
         return wmiobject_.Properties_.Item("UserModeTime").Value;
     }
+
     function put_UserModeTime(value){
         wmiobject_.Properties.Item("UserModeTime").Value = value;
     }
+/* VirtualSize プロパティにより、プロセスにより使用されている仮想アドレス領域の現在のサイズがバイト数で指定されます。仮想アドレス領域の使用には、必ずしもディスクまたはメイン メモリ ページの対応する使用が含まれる必要はありません。仮想領域には限界があり、使用し過ぎるとプロセスによりライブラリの読み込み機能の限界に達します。*/
     function get_VirtualSize(){
         return wmiobject_.Properties_.Item("VirtualSize").Value;
     }
+
     function put_VirtualSize(value){
         wmiobject_.Properties.Item("VirtualSize").Value = value;
     }
+/* WindowsVersion プロパティは、プロセスが実行している Windows のバージョンを示します。
+例: 4.0*/
     function get_WindowsVersion(){
         return wmiobject_.Properties_.Item("WindowsVersion").Value;
     }
+
     function put_WindowsVersion(value){
         wmiobject_.Properties.Item("WindowsVersion").Value = value;
     }
+/* ページ べースのメモリ管理を使用するオペレーティング システムで、プロセスが効率的に実行されるために必要な、バイト数で表されたメモリ容量。利用可能なメモリ容量が不十分な場合 (ワーキング セットのサイズより小さい場合)、スラッシングが発生します。この情報が不明な場合、NULL または 0 が入力される必要があります。このデータが提供される場合は、実行段階でのプロセスのメモリ要求の変更がわかるように監視されます。*/
     function get_WorkingSetSize(){
         return wmiobject_.Properties_.Item("WorkingSetSize").Value;
     }
+
     function put_WorkingSetSize(value){
         wmiobject_.Properties.Item("WorkingSetSize").Value = value;
     }
+/* WriteOperationCount プロパティにより、実行される書き込み操作の数が指定されます。*/
     function get_WriteOperationCount(){
         return wmiobject_.Properties_.Item("WriteOperationCount").Value;
     }
+
     function put_WriteOperationCount(value){
         wmiobject_.Properties.Item("WriteOperationCount").Value = value;
     }
+/* WriteTransferCount プロパティにより、書き込まれるデータの量が指定されます。*/
     function get_WriteTransferCount(){
         return wmiobject_.Properties_.Item("WriteTransferCount").Value;
     }
+
     function put_WriteTransferCount(value){
         wmiobject_.Properties.Item("WriteTransferCount").Value = value;
     }
 //** METHOD NAME: Create
+/* KernelDumpOnly プロパティは、同じクラスの DebugInfoType のために使用されていません。今後の作業のすべてにこの新しいプロパティを使用する必要があります。 
+KernelDumpOnly プロパティは、カーネル デバッグ情報のみがデバッグ ログ ファイルに書き込まれるかどうかを示します。
+値は TRUE または FALSE です。TRUE の場合は、カーネルの状態のみがシステム エラーのイベントのファイルに書き込まれます。FALSE の場合は、メモリの状態とエラーが発生したときにシステムに関する情報を提供できるデバイスの状態がシステムによりログに記録されます。*/
 //* (out) ProcessId AS uint32_t
+/* ProcessId パラメータにより、プロセスを識別するために使用されるグローバル プロセス識別子が返されます。値は、プロセスの終了時間までプロセスの作成時間から有効です。*/
 //*  (in) CommandLine AS String
+/*    description CommandLine パラメータにより、実行するコマンド ラインが指定されます。システムにより、実際使用されていたファイルを示すため、必要な場合は文字列を切って、コマンド ラインにヌル文字が追加されます。起動されるプログラムが Winmgmt (ユーザーのパスではない) 検索パスにない場合は、完全修飾パスは指定されなければなりません。*/
 //*  (in) CurrentDirectory AS String
+/*    description CurrentDirectory パラメータにより、子プロセスの現在のドライブとディレクトリが指定されます。文字列は、現在のディレクトリが既知のパスに解決されることが必要です。ユーザーにより、現在の作業ディレクトリへの絶対パスまたは相対パスが指定されます。このパラメータが NULL の場合、新規プロセスには呼び出しプロセスと同じパスがあります。このオプションは、アプリケーションを開始し、アプリケーションの初期ドライブと作業ディレクトリを指定する必要がある主なシェルに提供されます。*/
 //*  (in) ProcessStartupInformation AS Object
+/*    description ProcessStartupInformation パラメータは、Win32 プロセスのスタートアップ構成を表します。ウィンドウの表示、コンソール アプリケーションの特質、エラーの処理についての情報が含まれます。
+
+Windows XP 以降では、(以前 "winsta0\default" と既定されていた)  WinstationDesktop プロパティがすべての場合に無視されていることに注意してください。このパラメータの代わりに使われた値は空の文字列 ("") です。*/
     function Create(CommandLine, CurrentDirectory, ProcessStartupInformation){
         var in_params = wmiobject_.Methods_.Item("Create").InParameters.SpawnInstance_();
         if(CommandLine !== undefined ){
@@ -922,7 +1065,16 @@ var wmiobject_;
         return WMIClass_convert_out_params(out_params);
     }
 //** METHOD NAME: Terminate
+/* Terminate メソッドはプロセスとそのスレッドのすべてを強制終了します。メソッドは次のように変換される整数値を返します: 
+0 - 正常に完了しました。
+2 - ユーザーは要求された情報に対するアクセス権がありません。
+3 - ユーザーには十分な特権がありません。
+8 - 不明なエラーです。
+9 - 指定されたパスは存在しません。
+21 - 指定されたパラメータは無効です。
+その他 - 上の一覧以外の整数値については Win32 エラー コードのドキュメントを参照してください。*/
 //*  (in) Reason AS uint32_t
+/*    description Reason パラメータにより、プロセスとこの呼び出しの結果強制終了したスレッドすべてに対する終了コードが指定されます。*/
     function Terminate(Reason){
         var in_params = wmiobject_.Methods_.Item("Terminate").InParameters.SpawnInstance_();
         if(Reason !== undefined ){
@@ -941,7 +1093,24 @@ var wmiobject_;
         return WMIClass_convert_out_params(out_params);
     }
 //** METHOD NAME: SetPriority
+/* SetPriority メソッドはプロセスの実行優先度を変更します。リアルタイムに優先度を設定するためには、呼び出し元が SeIncreaseBasePriorityPrivilege を保持しなければなりません。この特権がない場合は、設定できる最も高い優先度は高優先度です。
+メソッドは次のように変換される整数値を返します: 
+0 - 正常に完了しました。
+2 - ユーザーは要求された情報に対するアクセス権がありません。
+3 - ユーザーには十分な特権がありません。
+8 - 不明なエラーです。
+9 - 指定されたパスは存在しません。
+21 - 指定されたパラメータは無効です。
+その他 - 上の一覧以外の整数値については Win32 エラー コードのドキュメントを参照してください。*/
 //*  (in) Priority AS int32_t
+/*    description Priority パラメータにより、プロセスの新しい優先順位のクラスが指定されます。値:
+Idle - システムがアイドル状態のときだけにスレッドが実行されるプロセスのために指定されています。 プロセスのスレッドは優先順位の高いクラスで実行されているプロセスのスレッドに横取りされます。例はスクリーン セーバーです。Idle Priority クラスは子プロセスによって継承されています。
+Below Normal - IDLE_PRIORITY_CLASS よりも優先順位が高く NORMAL_PRIORITY_CLASS よりは優先順位が低いプロセスを示します。Windows 2000 にとってです。
+Normal - 特別なスケジュールを必要としないプロセスに指定されています。
+Above Normal - NORMAL_PRIORITY_CLASS よりも優先順位が高く HIGH_PRIORITY_CLASS よりは優先順位が低いことを示します。Windows 2000 にとってです。
+High Priority - 直ちに実行される必要がある時間的に重要タスクに指定されています。プロセスのスレッドにより、通常の優先順位またはアイドル状態の優先順位のクラス プロセスのスレッドが横取りされます。例は Task List で、オペレーティング システムでの読み込みに関係なく、ユーザーに呼び出されたときに素早く応答する必要があります。優先度が高いクラスを使用するときは細心の注意を払ってください。これは、優先度が高いクラスのアプリケーション はほとんどすべての利用可能な時間を使用できるためです。
+Realtime - 予想される優先順位が最も高いプロセスに指定されています。プロセスのスレッドにより、重要なタスクを実行するオペレーティング システムのプロセスを含むそのほかのすべてのプロセスのスレッドが横取りされます。たとえば、非常に短い間隔で実行されるリアルタイム プロセスにより、ディスク キャッシュがフラッシュしないか、またはマウスが反応しなくなります。
+*/
     function SetPriority(Priority){
         var in_params = wmiobject_.Methods_.Item("SetPriority").InParameters.SpawnInstance_();
         if(Priority !== undefined ){

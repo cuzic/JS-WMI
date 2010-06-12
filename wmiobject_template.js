@@ -1,13 +1,19 @@
 <package>
 <?component error="true" debug="true"?>
  <comment>
-WMIをラップするスクリプトコンポーネント
+JScript �� WMI �����b�v����X�N���v�g�R���|�[�l���g
  </comment>
- <component id="WMIJScript_Win32_Process">
+ <component id="JSWMI_#{Class}">
  <reference object="WbemScripting.SWbemLocator" />
  <public>
   <property name="wmiobject">
     <get /> <put />
+  </property>
+  <property name="wmisink">
+    <get /> <put />
+  </property>
+  <property name="path">
+    <get />
   </property>
 #{properties_str}
   <method name="Put_">
@@ -15,7 +21,6 @@ WMIをラップするスクリプトコンポーネント
       <parameter name="objWbemNamedValueSet" />
   </method>
   <method name="PutAsync_">
-      <parameter name="objWbemSink" />
       <parameter name="iFlags" />
       <parameter name="objWbemNamedValueSet" />
       <parameter name="objWbemAsyncContext" />
@@ -25,7 +30,6 @@ WMIをラップするスクリプトコンポーネント
       <parameter name="objWbemNamedValueSet" />
   </method>
   <method name="DeleteAsync_">
-      <parameter name="objWbemSink" />
       <parameter name="iFlags" />
       <parameter name="objWbemNamedValueSet" />
       <parameter name="objWbemAsyncContext" />
@@ -35,7 +39,6 @@ WMIをラップするスクリプトコンポーネント
       <parameter name="objWbemNamedValueSet" />
   </method>
   <method name="InstancesAsync_">
-      <parameter name="objWbemSink" />
       <parameter name="iFlags" />
       <parameter name="objWbemNamedValueSet" />
       <parameter name="objWbemAsyncContext" />
@@ -45,7 +48,6 @@ WMIをラップするスクリプトコンポーネント
       <parameter name="objWbemNamedValueSet" />
   </method>
   <method name="SubclassesAsync_">
-      <parameter name="objWbemSink" />
       <parameter name="iFlags" />
       <parameter name="objWbemNamedValueSet" />
       <parameter name="objWbemAsyncContext" />
@@ -63,7 +65,6 @@ WMIをラップするスクリプトコンポーネント
       <parameter name="objWbemNamedValueSet" />
   </method>
   <method name="AssociatorsAsync_">
-      <parameter name="objWbemSink" />
       <parameter name="strAssocClass" />
       <parameter name="strResultClass" />
       <parameter name="strResultRole" />
@@ -86,7 +87,6 @@ WMIをラップするスクリプトコンポーネント
       <parameter name="objWbemNamedValueSet" />
   </method>
   <method name="ReferencesAsync_">
-      <parameter name="objWbemSink" />
       <parameter name="strResultClass" />
       <parameter name="strRole" />
       <parameter name="bClassesOnly" />
@@ -103,7 +103,6 @@ WMIをラップするスクリプトコンポーネント
       <parameter name="objWbemNamedValueSet" />
   </method>
   <method name="ExecMethodAsync_">
-      <parameter name="objWbemSink" />
       <parameter name="strMethodName" />
       <parameter name="objWbemInParameters" />
       <parameter name="iFlags" />
@@ -171,8 +170,25 @@ var wmiobject_;
   }
 
   function get_wmiobject(){
-      return wmiobject__;
+      return wmiobject_;
   }
+
+var wmisink_;
+
+  function put_wmisink(wmisink){
+      wmisink_ = wmisink;
+      return null;
+  }
+
+  function get_wmisink(){
+      return wmisink_;
+  }
+
+
+  function get_path(){
+      return wmiobject_.Path_.PATH;
+  }
+
 
   function Put_(iFlags, objWbemNamedValueSet){
       if (iFlags === undefined){
@@ -183,7 +199,8 @@ var wmiobject_;
       }
       return wmiobject__.Put_(iFlags, objWbemNamedValueSet);
   }
-  function PutAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+
+  function PutAsync_(iFlags, objWbemNamedValueSet, objWbemAsyncContext){
       if (iFlags === undefined){
         iFlags = 0;
       }
@@ -193,8 +210,9 @@ var wmiobject_;
       if (objWbemAsyncContext === undefined){
         objWbemAsyncContext = null;
       }
-      return wmiobject_.PutAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+      return wmiobject_.PutAsync_(wmisink_, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
   }
+
   function Delete_(iFlags, objWbemNamedValueSet){
       if (iFlags === undefined){
         iFlags = 0;
@@ -204,7 +222,8 @@ var wmiobject_;
       }
       return wmiobject_.Delete_(iFlags, objWbemNamedValueSet);
   }
-  function DeleteAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+
+  function DeleteAsync_(iFlags, objWbemNamedValueSet, objWbemAsyncContext){
       if (iFlags === undefined){
         iFlags = 0;
       }
@@ -214,8 +233,9 @@ var wmiobject_;
       if (objWbemAsyncContext === undefined){
         objWbemAsyncContext = null;
       }
-      return wmiobject_.DeleteAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+      return wmiobject_.DeleteAsync_(wmisink_, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
   }
+
   function Instances_(iFlags, objWbemNamedValueSet){
       if (iFlags === undefined){
         iFlags = 16;
@@ -225,7 +245,8 @@ var wmiobject_;
       }
       return wmiobject_.Instances_(iFlags, objWbemNamedValueSet);
   }
-  function InstancesAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+
+  function InstancesAsync_(iFlags, objWbemNamedValueSet, objWbemAsyncContext){
       if (iFlags === undefined){
         iFlags = 0;
       }
@@ -235,8 +256,9 @@ var wmiobject_;
       if (objWbemAsyncContext === undefined){
         objWbemAsyncContext = null;
       }
-      return wmiobject_.InstancesAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+      return wmiobject_.InstancesAsync_(wmisink_, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
   }
+
   function Subclasses_(iFlags, objWbemNamedValueSet){
       if (iFlags === undefined){
         iFlags = 16;
@@ -246,7 +268,8 @@ var wmiobject_;
       }
       return wmiobject_.Subclasses_(iFlags, objWbemNamedValueSet);
   }
-  function SubclassesAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+
+  function SubclassesAsync_(iFlags, objWbemNamedValueSet, objWbemAsyncContext){
       if (iFlags === undefined){
         iFlags = 0;
       }
@@ -256,8 +279,9 @@ var wmiobject_;
       if (objWbemAsyncContext === undefined){
         objWbemAsyncContext = null;
       }
-      return wmiobject_.SubclassesAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+      return wmiobject_.SubclassesAsync_(wmisink_, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
   }
+
   function Associators_(strAssocClass, strResultClass, strResultRole, strRole, bClassesOnly, bSchemaOnly, strRequiredAssocQualifier, strRequiredQualifier, iFlags, objWbemNamedValueSet){
       if (strAssocClass === undefined){
         strAssocClass = "";
@@ -291,7 +315,8 @@ var wmiobject_;
       }
       return wmiobject_.Associators_(strAssocClass, strResultClass, strResultRole, strRole, bClassesOnly, bSchemaOnly, strRequiredAssocQualifier, strRequiredQualifier, iFlags, objWbemNamedValueSet);
   }
-  function AssociatorsAsync_(objWbemSink, strAssocClass, strResultClass, strResultRole, strRole, bClassesOnly, bSchemaOnly, strRequiredAssocQualifier, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+
+  function AssociatorsAsync_(strAssocClass, strResultClass, strResultRole, strRole, bClassesOnly, bSchemaOnly, strRequiredAssocQualifier, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
       if (strAssocClass === undefined){
         strAssocClass = "";
       }
@@ -325,8 +350,9 @@ var wmiobject_;
       if (objWbemAsyncContext === undefined){
         objWbemAsyncContext = null;
       }
-      return wmiobject_.AssociatorsAsync_(objWbemSink, strAssocClass, strResultClass, strResultRole, strRole, bClassesOnly, bSchemaOnly, strRequiredAssocQualifier, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+      return wmiobject_.AssociatorsAsync_(wmisink_, strAssocClass, strResultClass, strResultRole, strRole, bClassesOnly, bSchemaOnly, strRequiredAssocQualifier, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
   }
+
   function References_(strResultClass, strRole, bClassesOnly, bSchemaOnly, strRequiredQualifier, iFlags, objWbemNamedValueSet){
       if (strResultClass === undefined){
         strResultClass = "";
@@ -351,7 +377,8 @@ var wmiobject_;
       }
       return wmiobject_.References_(strResultClass, strRole, bClassesOnly, bSchemaOnly, strRequiredQualifier, iFlags, objWbemNamedValueSet);
   }
-  function ReferencesAsync_(objWbemSink, strResultClass, strRole, bClassesOnly, bSchemaOnly, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+
+  function ReferencesAsync_(strResultClass, strRole, bClassesOnly, bSchemaOnly, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
       if (strResultClass === undefined){
         strResultClass = "";
       }
@@ -376,8 +403,9 @@ var wmiobject_;
       if (objWbemAsyncContext === undefined){
         objWbemAsyncContext = null;
       }
-      return wmiobject_.ReferencesAsync_(objWbemSink, strResultClass, strRole, bClassesOnly, bSchemaOnly, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+      return wmiobject_.ReferencesAsync_(wmisink_, strResultClass, strRole, bClassesOnly, bSchemaOnly, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
   }
+
   function ExecMethod_(strMethodName, objWbemInParameters, iFlags, objWbemNamedValueSet){
       if (objWbemInParameters === undefined){
         objWbemInParameters = null;
@@ -390,7 +418,8 @@ var wmiobject_;
       }
       return wmiobject_.ExecMethod_(strMethodName, objWbemInParameters, iFlags, objWbemNamedValueSet);
   }
-  function ExecMethodAsync_(objWbemSink, strMethodName, objWbemInParameters, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+
+  function ExecMethodAsync_(strMethodName, objWbemInParameters, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
       if (objWbemInParameters === undefined){
         objWbemInParameters = null;
       }
@@ -403,8 +432,9 @@ var wmiobject_;
       if (objWbemAsyncContext === undefined){
         objWbemAsyncContext = null;
       }
-      return wmiobject_.ExecMethodAsync_(objWbemSink, strMethodName, objWbemInParameters, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+      return wmiobject_.ExecMethodAsync_(wmisink_, strMethodName, objWbemInParameters, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
   }
+
   function Clone_(){
       return wmiobject_.Clone_();
   }

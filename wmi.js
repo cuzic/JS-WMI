@@ -42,12 +42,22 @@ function SINK_OnProgress(iUpperBound, iCurrent, strMessage, objWbemAsyncContext)
     }
 }
 
-function WMIClass(classname){
-    this.locator = WScript.CreateObject("WbemScripting.SWbemLocator");
-    this.service = this.locator.ConnectServer();
+function WMIClass(classname, service ){
+    if(service){
+        this.service = service;
+        WMIClass.default_service = this.service;
+    }
+    else if(WMIClass.default_service){
+        this.service = WMIClass.default_service;
+    }
+    else{
+        this.service = WMIClass.locator.ConnectServer();
+        WMIClass.default_service = this.service;
+    }
     this.first_time = true;
     this.classname = classname;
-    this.wmiclass = this.service.Get(classname);
+    this.wmiclass = this.service.Get(classname, 131072);
+    this.path = this.wmiclass.Path_.Path;
     var self = this;
     forEach(this.wmiclass.Methods_, function(method){
         var method_name = method.Name;
@@ -58,7 +68,11 @@ function WMIClass(classname){
             self[method_name] = WMIClass_method_with_no_arg(method_name);
         }
     });
+    var options = WMIClass.inspect(this.wmiclass);
+    this.wscfilename = WMIClass.write_wsc_file(options);
 }
+
+WMIClass.locator = WScript.CreateObject("WbemScripting.SWbemLocator");
 
 function WMIClass_method_with_arg(method_name){
     return function(){
@@ -113,14 +127,11 @@ function WMIClass_convert_out_params(out_params){
 
 function WMIClass.prototype.wrap(wmiobject){
     if(this.first_time){
-        var options = WMIClass.inspect(wmiobject);
-        var filename = WMIClass.write_wsc_file(options);
-        this.wmiobject_wrapped = GetObject("script:"+filename);
-        this.wmiobject_wrapped.wmiobject = wmiobject;
+        this.wmiobject_wrapped =
+            GetObject("script:"+this.wscfilename);
     }
-    else{
-        this.wmiobject_wrapped.wmiobject = wmiobject;
-    }
+    this.wmiobject_wrapped.wmiobject = wmiobject;
+    this.wmiobject_wrapped.wmisink = $sink;
     return this.wmiobject_wrapped;
 }
 
@@ -195,6 +206,7 @@ function WMIClass.compose_wsc_script(options){
     template = template.replace("#{properties_str}", properties_str);
     template = template.replace("#{methods_str}", methods_str);
     template = template.replace("#{functions_str}", functions_str);
+    template = template.replace("#{Class}", options["Class"]);
     return template;
 }
 
@@ -212,12 +224,14 @@ function WMIClass.inspect(wmiclass){
     function put_$NAME(value){
         wmiobject_.Properties.Item("$NAME").Value = value;
     };
+        property_funcs[property_funcs.length] =
+        "/* " + property.Qualifiers_.Item("Description").Value + "*/\n";
         var func_str = "    " +
             func.toString().replace(/\$NAME/g, property.Name) + "\n";
         if(property.IsArray){
             func_str = func_str.replace("Value;", "Value.toArray();");
         }
-        property_funcs[property_funcs.length] = func_str;
+        property_funcs[property_funcs.length] = func_str + "\n";
         property_funcs[property_funcs.length] = "    " +
             put_func.toString().replace(/\$NAME/g, property.Name) + "\n";
 
@@ -236,12 +250,18 @@ function WMIClass.inspect(wmiclass){
         var method_name = method.Name;
         var func, in_params;
         var comments = ["//** METHOD NAME: " + method_name];
+        comments[comments.length] =
+          "/* " +
+          method.Qualifiers_.Item("Description").Value + "*/";
         forEach(method.OutParameters.Properties_, function(out_param){
             if(out_param.Name == "ReturnValue") return;
             comments[comments.length] = 
             "//* (out) " + out_param.Name +
             ( out_param.IsArray ? "[]" : "") +
             " AS " + CimTypes[out_param.CIMType];
+            comments[comments.length] = 
+              "/* " +
+              out_param.Qualifiers_.Item("Description").Value + "*/";
         });
         if(method.InParameters){
             in_params = [];
@@ -251,6 +271,9 @@ function WMIClass.inspect(wmiclass){
                 "//*  (in) " + in_param.Name +
                 ( in_param.IsArray ? "[]" : "") +
                 " AS " + CimTypes[in_param.CIMType];
+                comments[comments.length] = 
+                  "/*    description " +
+                  in_param.Qualifiers_.Item("Description").Value + "*/";
             });
             methods[methods.length] = {
                 name: method_name,
@@ -299,8 +322,14 @@ $REPLACEMENT
     return options;
 }
 
-function WMIClass.prototype.register_callbacks(contextvalue, options){
-    var self = this;
+function WMIClass.prototype.register_callbacks(obj, options){
+    var self = this, contextvalue;
+    if(typeof(contextvalue) == "object"){
+        contextvalue = obj.path;
+    }
+    else if(typeof(obj) == "string"){
+        contextvalue = obj;
+    }
     if(options["OnObjectReady"]){
         $callbacks["OnObjectReady"][contextvalue] =
             function(objWbemObject){
@@ -317,7 +346,6 @@ function WMIClass.prototype.register_callbacks(contextvalue, options){
             $callbacks["OnObjectPut"][contextvalue] = null;
             return;
         };
-
     }
     if(options["OnProgress"]){
         $callbacks["OnProgress"][contextvalue] = function(iUpBound, iCur, strMsg){
@@ -336,13 +364,13 @@ function WMIClass.prototype.register_callbacks(contextvalue, options){
 }
 
 function WMIClass.prototype.InstancesOf(options){
-    var contextvalue = this.classname + "-InstancesOf";
+    var contextvalue = this.path + "-InstancesOf";
     var hash = this.register_callbacks(contextvalue, options);
-    this.service.InstancesOfAsync($sink, this.classname, null, null, hash);
+    this.service.InstancesOfAsync($sink, this.path, null, null, hash);
 }
 
 function WMIClass.prototype.ExecQuery(options){
-    var contextvalue = this.classname + "-ExecQuery";
+    var contextvalue = this.path + "-ExecQuery";
     this.register_callbacks(contextvalue, options);
     var hash = this.register_callbacks(contextvalue, options);
 
