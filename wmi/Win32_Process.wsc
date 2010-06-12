@@ -1,0 +1,990 @@
+<package>
+<?component error="true" debug="true"?>
+ <comment>
+WMI繧偵Λ繝・・縺吶ｋ繧ｹ繧ｯ繝ｪ繝励ヨ繧ｳ繝ｳ繝昴・繝阪Φ繝・ </comment>
+ <component id="WMIJScript_Win32_Process">
+ <reference object="WbemScripting.SWbemLocator" />
+ <public>
+  <property name="wmiobject">
+    <get /> <put />
+  </property>
+  <property name="Caption">
+    <get /><put />
+  </property>
+  <property name="CommandLine">
+    <get /><put />
+  </property>
+  <property name="CreationClassName">
+    <get /><put />
+  </property>
+  <property name="CreationDate">
+    <get /><put />
+  </property>
+  <property name="CSCreationClassName">
+    <get /><put />
+  </property>
+  <property name="CSName">
+    <get /><put />
+  </property>
+  <property name="Description">
+    <get /><put />
+  </property>
+  <property name="ExecutablePath">
+    <get /><put />
+  </property>
+  <property name="ExecutionState">
+    <get /><put />
+  </property>
+  <property name="Handle">
+    <get /><put />
+  </property>
+  <property name="HandleCount">
+    <get /><put />
+  </property>
+  <property name="InstallDate">
+    <get /><put />
+  </property>
+  <property name="KernelModeTime">
+    <get /><put />
+  </property>
+  <property name="MaximumWorkingSetSize">
+    <get /><put />
+  </property>
+  <property name="MinimumWorkingSetSize">
+    <get /><put />
+  </property>
+  <property name="Name">
+    <get /><put />
+  </property>
+  <property name="OSCreationClassName">
+    <get /><put />
+  </property>
+  <property name="OSName">
+    <get /><put />
+  </property>
+  <property name="OtherOperationCount">
+    <get /><put />
+  </property>
+  <property name="OtherTransferCount">
+    <get /><put />
+  </property>
+  <property name="PageFaults">
+    <get /><put />
+  </property>
+  <property name="PageFileUsage">
+    <get /><put />
+  </property>
+  <property name="ParentProcessId">
+    <get /><put />
+  </property>
+  <property name="PeakPageFileUsage">
+    <get /><put />
+  </property>
+  <property name="PeakVirtualSize">
+    <get /><put />
+  </property>
+  <property name="PeakWorkingSetSize">
+    <get /><put />
+  </property>
+  <property name="Priority">
+    <get /><put />
+  </property>
+  <property name="PrivatePageCount">
+    <get /><put />
+  </property>
+  <property name="ProcessId">
+    <get /><put />
+  </property>
+  <property name="QuotaNonPagedPoolUsage">
+    <get /><put />
+  </property>
+  <property name="QuotaPagedPoolUsage">
+    <get /><put />
+  </property>
+  <property name="QuotaPeakNonPagedPoolUsage">
+    <get /><put />
+  </property>
+  <property name="QuotaPeakPagedPoolUsage">
+    <get /><put />
+  </property>
+  <property name="ReadOperationCount">
+    <get /><put />
+  </property>
+  <property name="ReadTransferCount">
+    <get /><put />
+  </property>
+  <property name="SessionId">
+    <get /><put />
+  </property>
+  <property name="Status">
+    <get /><put />
+  </property>
+  <property name="TerminationDate">
+    <get /><put />
+  </property>
+  <property name="ThreadCount">
+    <get /><put />
+  </property>
+  <property name="UserModeTime">
+    <get /><put />
+  </property>
+  <property name="VirtualSize">
+    <get /><put />
+  </property>
+  <property name="WindowsVersion">
+    <get /><put />
+  </property>
+  <property name="WorkingSetSize">
+    <get /><put />
+  </property>
+  <property name="WriteOperationCount">
+    <get /><put />
+  </property>
+  <property name="WriteTransferCount">
+    <get /><put />
+  </property>
+
+  <method name="Put_">
+      <parameter name="iFlags" />
+      <parameter name="objWbemNamedValueSet" />
+  </method>
+  <method name="PutAsync_">
+      <parameter name="objWbemSink" />
+      <parameter name="iFlags" />
+      <parameter name="objWbemNamedValueSet" />
+      <parameter name="objWbemAsyncContext" />
+  </method>
+  <method name="Delete_">
+      <parameter name="iFlags" />
+      <parameter name="objWbemNamedValueSet" />
+  </method>
+  <method name="DeleteAsync_">
+      <parameter name="objWbemSink" />
+      <parameter name="iFlags" />
+      <parameter name="objWbemNamedValueSet" />
+      <parameter name="objWbemAsyncContext" />
+  </method>
+  <method name="Instances_">
+      <parameter name="iFlags" />
+      <parameter name="objWbemNamedValueSet" />
+  </method>
+  <method name="InstancesAsync_">
+      <parameter name="objWbemSink" />
+      <parameter name="iFlags" />
+      <parameter name="objWbemNamedValueSet" />
+      <parameter name="objWbemAsyncContext" />
+  </method>
+  <method name="Subclasses_">
+      <parameter name="iFlags" />
+      <parameter name="objWbemNamedValueSet" />
+  </method>
+  <method name="SubclassesAsync_">
+      <parameter name="objWbemSink" />
+      <parameter name="iFlags" />
+      <parameter name="objWbemNamedValueSet" />
+      <parameter name="objWbemAsyncContext" />
+  </method>
+  <method name="Associators_">
+      <parameter name="strAssocClass" />
+      <parameter name="strResultClass" />
+      <parameter name="strResultRole" />
+      <parameter name="strRole" />
+      <parameter name="bClassesOnly" />
+      <parameter name="bSchemaOnly" />
+      <parameter name="strRequiredAssocQualifier" />
+      <parameter name="strRequiredQualifier" />
+      <parameter name="iFlags" />
+      <parameter name="objWbemNamedValueSet" />
+  </method>
+  <method name="AssociatorsAsync_">
+      <parameter name="objWbemSink" />
+      <parameter name="strAssocClass" />
+      <parameter name="strResultClass" />
+      <parameter name="strResultRole" />
+      <parameter name="strRole" />
+      <parameter name="bClassesOnly" />
+      <parameter name="bSchemaOnly" />
+      <parameter name="strRequiredAssocQualifier" />
+      <parameter name="strRequiredQualifier" />
+      <parameter name="iFlags" />
+      <parameter name="objWbemNamedValueSet" />
+      <parameter name="objWbemAsyncContext" />
+  </method>
+  <method name="References_">
+      <parameter name="strResultClass" />
+      <parameter name="strRole" />
+      <parameter name="bClassesOnly" />
+      <parameter name="bSchemaOnly" />
+      <parameter name="strRequiredQualifier" />
+      <parameter name="iFlags" />
+      <parameter name="objWbemNamedValueSet" />
+  </method>
+  <method name="ReferencesAsync_">
+      <parameter name="objWbemSink" />
+      <parameter name="strResultClass" />
+      <parameter name="strRole" />
+      <parameter name="bClassesOnly" />
+      <parameter name="bSchemaOnly" />
+      <parameter name="strRequiredQualifier" />
+      <parameter name="iFlags" />
+      <parameter name="objWbemNamedValueSet" />
+      <parameter name="objWbemAsyncContext" />
+  </method>
+  <method name="ExecMethod_">
+      <parameter name="strMethodName" />
+      <parameter name="objWbemInParameters" />
+      <parameter name="iFlags" />
+      <parameter name="objWbemNamedValueSet" />
+  </method>
+  <method name="ExecMethodAsync_">
+      <parameter name="objWbemSink" />
+      <parameter name="strMethodName" />
+      <parameter name="objWbemInParameters" />
+      <parameter name="iFlags" />
+      <parameter name="objWbemNamedValueSet" />
+      <parameter name="objWbemAsyncContext" />
+  </method>
+  <method name="Clone_">
+  </method>
+  <method name="GetObjectText_">
+      <parameter name="iFlags" />
+  </method>
+  <method name="SpawnDerivedClass_">
+      <parameter name="iFlags" />
+  </method>
+  <method name="SpawnInstance_">
+      <parameter name="iFlags" />
+  </method>
+  <method name="CompareTo_">
+      <parameter name="objWbemObject" />
+      <parameter name="iFlags" />
+  </method>
+  <method name="Qualifiers_">
+  </method>
+  <method name="Properties_">
+  </method>
+  <method name="Methods_">
+  </method>
+  <method name="Derivation_">
+  </method>
+  <method name="Path_">
+  </method>
+  <method name="Security_">
+  </method>
+  <method name="Refresh_">
+      <parameter name="iFlags" />
+      <parameter name="objWbemNamedValueSet" />
+  </method>
+  <method name="SystemProperties_">
+  </method>
+  <method name="GetText_">
+      <parameter name="iObjectTextFormat" />
+      <parameter name="iFlags" />
+      <parameter name="objWbemNamedValueSet" />
+  </method>
+  <method name="SetFromText_">
+      <parameter name="bsText" />
+      <parameter name="iObjectTextFormat" />
+      <parameter name="iFlags" />
+      <parameter name="objWbemNamedValueSet" />
+  </method>
+  <method name="Create">
+    <parameter name="CommandLine" />
+    <parameter name="CurrentDirectory" />
+    <parameter name="ProcessStartupInformation" />
+  </method>
+  <method name="Terminate">
+    <parameter name="Reason" />
+  </method>
+  <method name="GetOwner">
+  </method>
+  <method name="GetOwnerSid">
+  </method>
+  <method name="SetPriority">
+    <parameter name="Priority" />
+  </method>
+  <method name="AttachDebugger">
+  </method>
+
+ </public>
+ <script language="JScript">
+function forEach(objectset, yield){
+    for(var e = new Enumerator(objectset); !e.atEnd(); e.moveNext()){
+        yield(e.item());
+    }
+}
+
+var wmiobject_;
+
+  function put_wmiobject(wmiobject){
+      wmiobject_ = wmiobject;
+      return null;
+  }
+
+  function get_wmiobject(){
+      return wmiobject__;
+  }
+
+  function Put_(iFlags, objWbemNamedValueSet){
+      if (iFlags === undefined){
+        iFlags = 0;
+      }
+      if (objWbemNamedValueSet === undefined){
+        objWbemNamedValueSet = null;
+      }
+      return wmiobject__.Put_(iFlags, objWbemNamedValueSet);
+  }
+  function PutAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+      if (iFlags === undefined){
+        iFlags = 0;
+      }
+      if (objWbemNamedValueSet === undefined){
+        objWbemNamedValueSet = null;
+      }
+      if (objWbemAsyncContext === undefined){
+        objWbemAsyncContext = null;
+      }
+      return wmiobject_.PutAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+  }
+  function Delete_(iFlags, objWbemNamedValueSet){
+      if (iFlags === undefined){
+        iFlags = 0;
+      }
+      if (objWbemNamedValueSet === undefined){
+        objWbemNamedValueSet = null;
+      }
+      return wmiobject_.Delete_(iFlags, objWbemNamedValueSet);
+  }
+  function DeleteAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+      if (iFlags === undefined){
+        iFlags = 0;
+      }
+      if (objWbemNamedValueSet === undefined){
+        objWbemNamedValueSet = null;
+      }
+      if (objWbemAsyncContext === undefined){
+        objWbemAsyncContext = null;
+      }
+      return wmiobject_.DeleteAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+  }
+  function Instances_(iFlags, objWbemNamedValueSet){
+      if (iFlags === undefined){
+        iFlags = 16;
+      }
+      if (objWbemNamedValueSet === undefined){
+        objWbemNamedValueSet = null;
+      }
+      return wmiobject_.Instances_(iFlags, objWbemNamedValueSet);
+  }
+  function InstancesAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+      if (iFlags === undefined){
+        iFlags = 0;
+      }
+      if (objWbemNamedValueSet === undefined){
+        objWbemNamedValueSet = null;
+      }
+      if (objWbemAsyncContext === undefined){
+        objWbemAsyncContext = null;
+      }
+      return wmiobject_.InstancesAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+  }
+  function Subclasses_(iFlags, objWbemNamedValueSet){
+      if (iFlags === undefined){
+        iFlags = 16;
+      }
+      if (objWbemNamedValueSet === undefined){
+        objWbemNamedValueSet = null;
+      }
+      return wmiobject_.Subclasses_(iFlags, objWbemNamedValueSet);
+  }
+  function SubclassesAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+      if (iFlags === undefined){
+        iFlags = 0;
+      }
+      if (objWbemNamedValueSet === undefined){
+        objWbemNamedValueSet = null;
+      }
+      if (objWbemAsyncContext === undefined){
+        objWbemAsyncContext = null;
+      }
+      return wmiobject_.SubclassesAsync_(objWbemSink, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+  }
+  function Associators_(strAssocClass, strResultClass, strResultRole, strRole, bClassesOnly, bSchemaOnly, strRequiredAssocQualifier, strRequiredQualifier, iFlags, objWbemNamedValueSet){
+      if (strAssocClass === undefined){
+        strAssocClass = "";
+      }
+      if (strResultClass === undefined){
+        strResultClass = "";
+      }
+      if (strResultRole === undefined){
+        strResultRole = "";
+      }
+      if (strRole === undefined){
+        strRole = "";
+      }
+      if (bClassesOnly === undefined){
+        bClassesOnly = false;
+      }
+      if (bSchemaOnly === undefined){
+        bSchemaOnly = false;
+      }
+      if (strRequiredAssocQualifier === undefined){
+        strRequiredAssocQualifier = "";
+      }
+      if (strRequiredQualifier === undefined){
+        strRequiredQualifier = "";
+      }
+      if (iFlags === undefined){
+        iFlags = 16;
+      }
+      if (objWbemNamedValueSet === undefined){
+        objWbemNamedValueSet = null;
+      }
+      return wmiobject_.Associators_(strAssocClass, strResultClass, strResultRole, strRole, bClassesOnly, bSchemaOnly, strRequiredAssocQualifier, strRequiredQualifier, iFlags, objWbemNamedValueSet);
+  }
+  function AssociatorsAsync_(objWbemSink, strAssocClass, strResultClass, strResultRole, strRole, bClassesOnly, bSchemaOnly, strRequiredAssocQualifier, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+      if (strAssocClass === undefined){
+        strAssocClass = "";
+      }
+      if (strResultClass === undefined){
+        strResultClass = "";
+      }
+      if (strResultRole === undefined){
+        strResultRole = "";
+      }
+      if (strRole === undefined){
+        strRole = "";
+      }
+      if (bClassesOnly === undefined){
+        bClassesOnly = false;
+      }
+      if (bSchemaOnly === undefined){
+        bSchemaOnly = false;
+      }
+      if (strRequiredAssocQualifier === undefined){
+        strRequiredAssocQualifier = "";
+      }
+      if (strRequiredQualifier === undefined){
+        strRequiredQualifier = "";
+      }
+      if (iFlags === undefined){
+        iFlags = 0;
+      }
+      if (objWbemNamedValueSet === undefined){
+        objWbemNamedValueSet = null;
+      }
+      if (objWbemAsyncContext === undefined){
+        objWbemAsyncContext = null;
+      }
+      return wmiobject_.AssociatorsAsync_(objWbemSink, strAssocClass, strResultClass, strResultRole, strRole, bClassesOnly, bSchemaOnly, strRequiredAssocQualifier, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+  }
+  function References_(strResultClass, strRole, bClassesOnly, bSchemaOnly, strRequiredQualifier, iFlags, objWbemNamedValueSet){
+      if (strResultClass === undefined){
+        strResultClass = "";
+      }
+      if (strRole === undefined){
+        strRole = "";
+      }
+      if (bClassesOnly === undefined){
+        bClassesOnly = false;
+      }
+      if (bSchemaOnly === undefined){
+        bSchemaOnly = false;
+      }
+      if (strRequiredQualifier === undefined){
+        strRequiredQualifier = "";
+      }
+      if (iFlags === undefined){
+        iFlags = 16;
+      }
+      if (objWbemNamedValueSet === undefined){
+        objWbemNamedValueSet = null;
+      }
+      return wmiobject_.References_(strResultClass, strRole, bClassesOnly, bSchemaOnly, strRequiredQualifier, iFlags, objWbemNamedValueSet);
+  }
+  function ReferencesAsync_(objWbemSink, strResultClass, strRole, bClassesOnly, bSchemaOnly, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+      if (strResultClass === undefined){
+        strResultClass = "";
+      }
+      if (strRole === undefined){
+        strRole = "";
+      }
+      if (bClassesOnly === undefined){
+        bClassesOnly = false;
+      }
+      if (bSchemaOnly === undefined){
+        bSchemaOnly = false;
+      }
+      if (strRequiredQualifier === undefined){
+        strRequiredQualifier = "";
+      }
+      if (iFlags === undefined){
+        iFlags = 0;
+      }
+      if (objWbemNamedValueSet === undefined){
+        objWbemNamedValueSet = null;
+      }
+      if (objWbemAsyncContext === undefined){
+        objWbemAsyncContext = null;
+      }
+      return wmiobject_.ReferencesAsync_(objWbemSink, strResultClass, strRole, bClassesOnly, bSchemaOnly, strRequiredQualifier, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+  }
+  function ExecMethod_(strMethodName, objWbemInParameters, iFlags, objWbemNamedValueSet){
+      if (objWbemInParameters === undefined){
+        objWbemInParameters = null;
+      }
+      if (iFlags === undefined){
+        iFlags = 0;
+      }
+      if (objWbemNamedValueSet === undefined){
+        objWbemNamedValueSet = null;
+      }
+      return wmiobject_.ExecMethod_(strMethodName, objWbemInParameters, iFlags, objWbemNamedValueSet);
+  }
+  function ExecMethodAsync_(objWbemSink, strMethodName, objWbemInParameters, iFlags, objWbemNamedValueSet, objWbemAsyncContext){
+      if (objWbemInParameters === undefined){
+        objWbemInParameters = null;
+      }
+      if (iFlags === undefined){
+        iFlags = 0;
+      }
+      if (objWbemNamedValueSet === undefined){
+        objWbemNamedValueSet = null;
+      }
+      if (objWbemAsyncContext === undefined){
+        objWbemAsyncContext = null;
+      }
+      return wmiobject_.ExecMethodAsync_(objWbemSink, strMethodName, objWbemInParameters, iFlags, objWbemNamedValueSet, objWbemAsyncContext);
+  }
+  function Clone_(){
+      return wmiobject_.Clone_();
+  }
+  function GetObjectText_(iFlags){
+      if (iFlags === undefined){
+        iFlags = 0;
+      }
+      return wmiobject_.GetObjectText_(iFlags);
+  }
+  function SpawnDerivedClass_(iFlags){
+      if (iFlags === undefined){
+        iFlags = 0;
+      }
+      return wmiobject_.SpawnDerivedClass_(iFlags);
+  }
+  function SpawnInstance_(iFlags){
+      if (iFlags === undefined){
+        iFlags = 0;
+      }
+      return wmiobject_.SpawnInstance_(iFlags);
+  }
+  function CompareTo_(objWbemObject, iFlags){
+      if (iFlags === undefined){
+        iFlags = 0;
+      }
+      return wmiobject_.CompareTo_(objWbemObject, iFlags);
+  }
+  function Qualifiers_(){
+      return wmiobject_.Qualifiers_();
+  }
+  function Properties_(){
+      return wmiobject_.Properties_();
+  }
+  function Methods_(){
+      return wmiobject_.Methods_();
+  }
+  function Derivation_(){
+      return wmiobject_.Derivation_();
+  }
+  function Path_(){
+      return wmiobject_.Path_();
+  }
+  function Security_(){
+      return wmiobject_.Security_();
+  }
+  function Refresh_(iFlags, objWbemNamedValueSet){
+      if (iFlags === undefined){
+        iFlags = 0;
+      }
+      if (objWbemNamedValueSet === undefined){
+        objWbemNamedValueSet = null;
+      }
+      return wmiobject_.Refresh_(iFlags, objWbemNamedValueSet);
+  }
+  function SystemProperties_(){
+      return wmiobject_.SystemProperties_();
+  }
+  function GetText_(iObjectTextFormat, iFlags, objWbemNamedValueSet){
+      if (iFlags === undefined){
+        iFlags = 0;
+      }
+      if (objWbemNamedValueSet === undefined){
+        objWbemNamedValueSet = null;
+      }
+      return wmiobject_.GetText_(iObjectTextFormat, iFlags, objWbemNamedValueSet);
+  }
+  function SetFromText_(bsText, iObjectTextFormat, iFlags, objWbemNamedValueSet){
+      if (iFlags === undefined){
+        iFlags = 0;
+      }
+      if (objWbemNamedValueSet === undefined){
+        objWbemNamedValueSet = null;
+      }
+      return wmiobject_.SetFromText_(bsText, iObjectTextFormat, iFlags, objWbemNamedValueSet);
+  }
+    function get_Caption(){
+        return wmiobject_.Properties_.Item("Caption").Value;
+    }
+    function put_Caption(value){
+        wmiobject_.Properties.Item("Caption").Value = value;
+    }
+    function get_CommandLine(){
+        return wmiobject_.Properties_.Item("CommandLine").Value;
+    }
+    function put_CommandLine(value){
+        wmiobject_.Properties.Item("CommandLine").Value = value;
+    }
+    function get_CreationClassName(){
+        return wmiobject_.Properties_.Item("CreationClassName").Value;
+    }
+    function put_CreationClassName(value){
+        wmiobject_.Properties.Item("CreationClassName").Value = value;
+    }
+    function get_CreationDate(){
+        return wmiobject_.Properties_.Item("CreationDate").Value;
+    }
+    function put_CreationDate(value){
+        wmiobject_.Properties.Item("CreationDate").Value = value;
+    }
+    function get_CSCreationClassName(){
+        return wmiobject_.Properties_.Item("CSCreationClassName").Value;
+    }
+    function put_CSCreationClassName(value){
+        wmiobject_.Properties.Item("CSCreationClassName").Value = value;
+    }
+    function get_CSName(){
+        return wmiobject_.Properties_.Item("CSName").Value;
+    }
+    function put_CSName(value){
+        wmiobject_.Properties.Item("CSName").Value = value;
+    }
+    function get_Description(){
+        return wmiobject_.Properties_.Item("Description").Value;
+    }
+    function put_Description(value){
+        wmiobject_.Properties.Item("Description").Value = value;
+    }
+    function get_ExecutablePath(){
+        return wmiobject_.Properties_.Item("ExecutablePath").Value;
+    }
+    function put_ExecutablePath(value){
+        wmiobject_.Properties.Item("ExecutablePath").Value = value;
+    }
+    function get_ExecutionState(){
+        return wmiobject_.Properties_.Item("ExecutionState").Value;
+    }
+    function put_ExecutionState(value){
+        wmiobject_.Properties.Item("ExecutionState").Value = value;
+    }
+    function get_Handle(){
+        return wmiobject_.Properties_.Item("Handle").Value;
+    }
+    function put_Handle(value){
+        wmiobject_.Properties.Item("Handle").Value = value;
+    }
+    function get_HandleCount(){
+        return wmiobject_.Properties_.Item("HandleCount").Value;
+    }
+    function put_HandleCount(value){
+        wmiobject_.Properties.Item("HandleCount").Value = value;
+    }
+    function get_InstallDate(){
+        return wmiobject_.Properties_.Item("InstallDate").Value;
+    }
+    function put_InstallDate(value){
+        wmiobject_.Properties.Item("InstallDate").Value = value;
+    }
+    function get_KernelModeTime(){
+        return wmiobject_.Properties_.Item("KernelModeTime").Value;
+    }
+    function put_KernelModeTime(value){
+        wmiobject_.Properties.Item("KernelModeTime").Value = value;
+    }
+    function get_MaximumWorkingSetSize(){
+        return wmiobject_.Properties_.Item("MaximumWorkingSetSize").Value;
+    }
+    function put_MaximumWorkingSetSize(value){
+        wmiobject_.Properties.Item("MaximumWorkingSetSize").Value = value;
+    }
+    function get_MinimumWorkingSetSize(){
+        return wmiobject_.Properties_.Item("MinimumWorkingSetSize").Value;
+    }
+    function put_MinimumWorkingSetSize(value){
+        wmiobject_.Properties.Item("MinimumWorkingSetSize").Value = value;
+    }
+    function get_Name(){
+        return wmiobject_.Properties_.Item("Name").Value;
+    }
+    function put_Name(value){
+        wmiobject_.Properties.Item("Name").Value = value;
+    }
+    function get_OSCreationClassName(){
+        return wmiobject_.Properties_.Item("OSCreationClassName").Value;
+    }
+    function put_OSCreationClassName(value){
+        wmiobject_.Properties.Item("OSCreationClassName").Value = value;
+    }
+    function get_OSName(){
+        return wmiobject_.Properties_.Item("OSName").Value;
+    }
+    function put_OSName(value){
+        wmiobject_.Properties.Item("OSName").Value = value;
+    }
+    function get_OtherOperationCount(){
+        return wmiobject_.Properties_.Item("OtherOperationCount").Value;
+    }
+    function put_OtherOperationCount(value){
+        wmiobject_.Properties.Item("OtherOperationCount").Value = value;
+    }
+    function get_OtherTransferCount(){
+        return wmiobject_.Properties_.Item("OtherTransferCount").Value;
+    }
+    function put_OtherTransferCount(value){
+        wmiobject_.Properties.Item("OtherTransferCount").Value = value;
+    }
+    function get_PageFaults(){
+        return wmiobject_.Properties_.Item("PageFaults").Value;
+    }
+    function put_PageFaults(value){
+        wmiobject_.Properties.Item("PageFaults").Value = value;
+    }
+    function get_PageFileUsage(){
+        return wmiobject_.Properties_.Item("PageFileUsage").Value;
+    }
+    function put_PageFileUsage(value){
+        wmiobject_.Properties.Item("PageFileUsage").Value = value;
+    }
+    function get_ParentProcessId(){
+        return wmiobject_.Properties_.Item("ParentProcessId").Value;
+    }
+    function put_ParentProcessId(value){
+        wmiobject_.Properties.Item("ParentProcessId").Value = value;
+    }
+    function get_PeakPageFileUsage(){
+        return wmiobject_.Properties_.Item("PeakPageFileUsage").Value;
+    }
+    function put_PeakPageFileUsage(value){
+        wmiobject_.Properties.Item("PeakPageFileUsage").Value = value;
+    }
+    function get_PeakVirtualSize(){
+        return wmiobject_.Properties_.Item("PeakVirtualSize").Value;
+    }
+    function put_PeakVirtualSize(value){
+        wmiobject_.Properties.Item("PeakVirtualSize").Value = value;
+    }
+    function get_PeakWorkingSetSize(){
+        return wmiobject_.Properties_.Item("PeakWorkingSetSize").Value;
+    }
+    function put_PeakWorkingSetSize(value){
+        wmiobject_.Properties.Item("PeakWorkingSetSize").Value = value;
+    }
+    function get_Priority(){
+        return wmiobject_.Properties_.Item("Priority").Value;
+    }
+    function put_Priority(value){
+        wmiobject_.Properties.Item("Priority").Value = value;
+    }
+    function get_PrivatePageCount(){
+        return wmiobject_.Properties_.Item("PrivatePageCount").Value;
+    }
+    function put_PrivatePageCount(value){
+        wmiobject_.Properties.Item("PrivatePageCount").Value = value;
+    }
+    function get_ProcessId(){
+        return wmiobject_.Properties_.Item("ProcessId").Value;
+    }
+    function put_ProcessId(value){
+        wmiobject_.Properties.Item("ProcessId").Value = value;
+    }
+    function get_QuotaNonPagedPoolUsage(){
+        return wmiobject_.Properties_.Item("QuotaNonPagedPoolUsage").Value;
+    }
+    function put_QuotaNonPagedPoolUsage(value){
+        wmiobject_.Properties.Item("QuotaNonPagedPoolUsage").Value = value;
+    }
+    function get_QuotaPagedPoolUsage(){
+        return wmiobject_.Properties_.Item("QuotaPagedPoolUsage").Value;
+    }
+    function put_QuotaPagedPoolUsage(value){
+        wmiobject_.Properties.Item("QuotaPagedPoolUsage").Value = value;
+    }
+    function get_QuotaPeakNonPagedPoolUsage(){
+        return wmiobject_.Properties_.Item("QuotaPeakNonPagedPoolUsage").Value;
+    }
+    function put_QuotaPeakNonPagedPoolUsage(value){
+        wmiobject_.Properties.Item("QuotaPeakNonPagedPoolUsage").Value = value;
+    }
+    function get_QuotaPeakPagedPoolUsage(){
+        return wmiobject_.Properties_.Item("QuotaPeakPagedPoolUsage").Value;
+    }
+    function put_QuotaPeakPagedPoolUsage(value){
+        wmiobject_.Properties.Item("QuotaPeakPagedPoolUsage").Value = value;
+    }
+    function get_ReadOperationCount(){
+        return wmiobject_.Properties_.Item("ReadOperationCount").Value;
+    }
+    function put_ReadOperationCount(value){
+        wmiobject_.Properties.Item("ReadOperationCount").Value = value;
+    }
+    function get_ReadTransferCount(){
+        return wmiobject_.Properties_.Item("ReadTransferCount").Value;
+    }
+    function put_ReadTransferCount(value){
+        wmiobject_.Properties.Item("ReadTransferCount").Value = value;
+    }
+    function get_SessionId(){
+        return wmiobject_.Properties_.Item("SessionId").Value;
+    }
+    function put_SessionId(value){
+        wmiobject_.Properties.Item("SessionId").Value = value;
+    }
+    function get_Status(){
+        return wmiobject_.Properties_.Item("Status").Value;
+    }
+    function put_Status(value){
+        wmiobject_.Properties.Item("Status").Value = value;
+    }
+    function get_TerminationDate(){
+        return wmiobject_.Properties_.Item("TerminationDate").Value;
+    }
+    function put_TerminationDate(value){
+        wmiobject_.Properties.Item("TerminationDate").Value = value;
+    }
+    function get_ThreadCount(){
+        return wmiobject_.Properties_.Item("ThreadCount").Value;
+    }
+    function put_ThreadCount(value){
+        wmiobject_.Properties.Item("ThreadCount").Value = value;
+    }
+    function get_UserModeTime(){
+        return wmiobject_.Properties_.Item("UserModeTime").Value;
+    }
+    function put_UserModeTime(value){
+        wmiobject_.Properties.Item("UserModeTime").Value = value;
+    }
+    function get_VirtualSize(){
+        return wmiobject_.Properties_.Item("VirtualSize").Value;
+    }
+    function put_VirtualSize(value){
+        wmiobject_.Properties.Item("VirtualSize").Value = value;
+    }
+    function get_WindowsVersion(){
+        return wmiobject_.Properties_.Item("WindowsVersion").Value;
+    }
+    function put_WindowsVersion(value){
+        wmiobject_.Properties.Item("WindowsVersion").Value = value;
+    }
+    function get_WorkingSetSize(){
+        return wmiobject_.Properties_.Item("WorkingSetSize").Value;
+    }
+    function put_WorkingSetSize(value){
+        wmiobject_.Properties.Item("WorkingSetSize").Value = value;
+    }
+    function get_WriteOperationCount(){
+        return wmiobject_.Properties_.Item("WriteOperationCount").Value;
+    }
+    function put_WriteOperationCount(value){
+        wmiobject_.Properties.Item("WriteOperationCount").Value = value;
+    }
+    function get_WriteTransferCount(){
+        return wmiobject_.Properties_.Item("WriteTransferCount").Value;
+    }
+    function put_WriteTransferCount(value){
+        wmiobject_.Properties.Item("WriteTransferCount").Value = value;
+    }
+//** METHOD NAME: Create
+//* (out) ProcessId AS uint32_t
+//*  (in) CommandLine AS String
+//*  (in) CurrentDirectory AS String
+//*  (in) ProcessStartupInformation AS Object
+    function Create(CommandLine, CurrentDirectory, ProcessStartupInformation){
+        var in_params = wmiobject_.Methods_.Item("Create").InParameters.SpawnInstance_();
+        if(CommandLine !== undefined ){
+            in_params.Properties_.Item("CommandLine").Value = CommandLine;
+        }
+        if(CurrentDirectory !== undefined ){
+            in_params.Properties_.Item("CurrentDirectory").Value = CurrentDirectory;
+        }
+        if(ProcessStartupInformation !== undefined ){
+            in_params.Properties_.Item("ProcessStartupInformation").Value = ProcessStartupInformation;
+        }
+
+        var out_params = wmiobject_.ExecMethod_("Create", in_params);
+        return WMIClass_convert_out_params(out_params);
+    }
+//** METHOD NAME: Terminate
+//*  (in) Reason AS uint32_t
+    function Terminate(Reason){
+        var in_params = wmiobject_.Methods_.Item("Terminate").InParameters.SpawnInstance_();
+        if(Reason !== undefined ){
+            in_params.Properties_.Item("Reason").Value = Reason;
+        }
+
+        var out_params = wmiobject_.ExecMethod_("Terminate", in_params);
+        return WMIClass_convert_out_params(out_params);
+    }
+    function GetOwner(){
+        var out_params = wmiobject_.ExecMethod_("GetOwner");
+        return WMIClass_convert_out_params(out_params);
+    }
+    function GetOwnerSid(){
+        var out_params = wmiobject_.ExecMethod_("GetOwnerSid");
+        return WMIClass_convert_out_params(out_params);
+    }
+//** METHOD NAME: SetPriority
+//*  (in) Priority AS int32_t
+    function SetPriority(Priority){
+        var in_params = wmiobject_.Methods_.Item("SetPriority").InParameters.SpawnInstance_();
+        if(Priority !== undefined ){
+            in_params.Properties_.Item("Priority").Value = Priority;
+        }
+
+        var out_params = wmiobject_.ExecMethod_("SetPriority", in_params);
+        return WMIClass_convert_out_params(out_params);
+    }
+    function AttachDebugger(){
+        var out_params = wmiobject_.ExecMethod_("AttachDebugger");
+        return WMIClass_convert_out_params(out_params);
+    }
+
+
+function WMIClass_convert_out_params(out_params){
+    try{
+        var outs = [];
+        forEach(out_params.Properties_, function(out_param){
+          if(out_param.Name == "ReturnValue"){
+            if(out_param.Value != 0){
+              throw("invalid Return Value :" + out_param.Value);
+            }
+          }
+          else{
+            outs[outs.length] = out_param.Value;
+          }
+        });
+        switch(outs.length){
+        case 0:
+            return;
+        case 1:
+            return outs[0];
+        default:
+            return outs;
+        }
+        return outs;
+    }
+    catch(e){
+        return e;
+    }
+}
+
+ </script>
+ </component>
+</package>
