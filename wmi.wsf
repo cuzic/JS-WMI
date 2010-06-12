@@ -6,7 +6,10 @@ process.Create("Notepad.exe");
 WScript.Sleep(200);
 process.ExecQuery({where: "caption = \"notepad.exe\"",
   OnObjectReady: function(instance){
-        WScript.Echo(instance.Caption);
+        var values = instance.GetOwner();
+        var domain = values[0];
+        var user   = values[1];
+        WScript.Echo(instance.Caption + " " + domain + " " + user);
         instance.Terminate();
     }});
 WScript.Sleep(2000);
